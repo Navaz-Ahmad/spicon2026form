@@ -68,7 +68,7 @@ export default function SPICONRegistration() {
     setLoading(true);
     try {
       const res = await fetch(
-        "http://localhost:5000/api/cashier/registerCustomer",
+        "http://13.234.197.201:5000/api/cashier/registerCustomer",
         {
           method: "POST",
           body: fd,
@@ -78,7 +78,9 @@ export default function SPICONRegistration() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Registration failed");
 
-      setMessage("Registration successful! You will be added to WhatsApp group soon.");
+      setMessage(
+        "Registration successful! You will be added to WhatsApp group soon."
+      );
       setMessageType("success");
 
       setForm(initial);
@@ -94,7 +96,6 @@ export default function SPICONRegistration() {
 
   return (
     <div className="container py-4">
-
       {/* SUCCESS / ERROR MESSAGE */}
       {message && (
         <div
@@ -134,12 +135,23 @@ export default function SPICONRegistration() {
 
         <h5 className="fw-bold mt-3">Who can attend?</h5>
         <ul className="text-start mx-auto" style={{ maxWidth: "800px" }}>
-          <li>Born-again experience, minimum D.T. Camp attendance, and recommendation by senior adviser/district staff.</li>
-          <li>Graduates involved in student ministry with recommendation by EGF Secretary and APEGF staff.</li>
-          <li>Only authenticated registrations will be added to the “SPICON-2026 WR Delegates” WhatsApp group.</li>
+          <li>
+            Born-again experience, minimum D.T. Camp attendance, and
+            recommendation by senior adviser/district staff.
+          </li>
+          <li>
+            Graduates involved in student ministry with recommendation by EGF
+            Secretary and APEGF staff.
+          </li>
+          <li>
+            Only authenticated registrations will be added to the “SPICON-2026
+            WR Delegates” WhatsApp group.
+          </li>
         </ul>
 
-        <p className="fw-bold mt-2">This is a sign that your registration is confirmed.</p>
+        <p className="fw-bold mt-2">
+          This is a sign that your registration is confirmed.
+        </p>
 
         <p className="mt-3">
           <strong>Last date for registration:</strong>
@@ -147,7 +159,9 @@ export default function SPICONRegistration() {
           Dec 31, 2026 – 6 PM
         </p>
 
-        <p className="text-danger fw-bold">NOTE: No spot registration will be available.</p>
+        <p className="text-danger fw-bold">
+          NOTE: No spot registration will be available.
+        </p>
 
         <hr />
 
@@ -181,7 +195,6 @@ export default function SPICONRegistration() {
 
       {/* FORM START */}
       <form className="row g-3" onSubmit={handleSubmit}>
-
         {/* EMAIL */}
         <div className="col-md-6">
           <label className="form-label">Email *</label>
@@ -197,12 +210,19 @@ export default function SPICONRegistration() {
         {/* TITLE */}
         <div className="col-md-6">
           <label className="form-label">Title (గౌరవ సంబోధన)</label>
-          <input
+          <select
             name="title"
-            className="form-control"
+            className="form-select"
             value={form.title}
             onChange={handle}
-          />
+          >
+            <option value="">Choose</option>
+            <option>Mr</option>
+            <option>Mrs</option>
+            <option>Ms</option>
+            <option>Pastor</option>
+            <option>Dr</option>
+          </select>
         </div>
 
         {/* FULL NAME */}
@@ -303,7 +323,9 @@ export default function SPICONRegistration() {
 
         {/* ICEU / EGF */}
         <div className="col-md-6">
-          <label className="form-label">Which ICEU / EGF do you belong to? *</label>
+          <label className="form-label">
+            Which ICEU / EGF do you belong to? *
+          </label>
           <select
             name="iceuEgf"
             className="form-select"
@@ -487,9 +509,7 @@ export default function SPICONRegistration() {
             </div>
 
             <div className="col-md-6">
-              <label className="form-label">
-                Names of children 10–14
-              </label>
+              <label className="form-label">Names of children 10–14</label>
               <input
                 name="child10to14Names"
                 className="form-control"
