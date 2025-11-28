@@ -227,7 +227,7 @@ export default function SPICONRegistration() {
 
         {/* FULL NAME */}
         <div className="col-md-6">
-          <label className="form-label">Full Name *</label>
+          <label className="form-label">Enter Full Name *</label>
           <input
             name="fullName"
             className="form-control"
