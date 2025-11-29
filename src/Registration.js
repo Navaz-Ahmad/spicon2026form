@@ -67,7 +67,7 @@ export default function SPICONRegistration() {
 
     try {
       const res = await fetch(
-        "http://13.234.197.201:5000/api/cashier/registerCustomer",
+        "https://api.sjtechsol.com/api/cashier/registerCustomer",
         {
           method: "POST",
           body: fd,
