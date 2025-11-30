@@ -77,9 +77,7 @@ export default function SPICONRegistration() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Registration failed");
 
-      setMessage(
-        "Registration successful! You will be added to WhatsApp group soon."
-      );
+      setMessage("Registration successful! You will be added to WhatsApp group soon.");
       setMessageType("success");
 
       setForm(initial);
@@ -95,6 +93,7 @@ export default function SPICONRegistration() {
 
   return (
     <div className="container py-4">
+
       {/* SUCCESS / ERROR MESSAGE */}
       {message && (
         <div
@@ -114,6 +113,8 @@ export default function SPICONRegistration() {
           style={{ width: "120px", marginBottom: "15px" }}
         />
 
+       
+
         <h2 className="fw-bold mb-2">
           REGISTRATION FOR SPICON 2026 (West Rayalaseema)
         </h2>
@@ -125,8 +126,7 @@ export default function SPICONRegistration() {
           <strong>Venue:</strong> Seventh-day Adventist High School,
         </p>
         <p className="mb-3">
-          Duggannagaripalli, Vemula Mandal (Near Vempalli),
-          <br />
+          Duggannagaripalli, Vemula Mandal (Near Vempalli),<br />
           Kadapa District (Y.S.R. Dist.)
         </p>
 
@@ -134,33 +134,19 @@ export default function SPICONRegistration() {
 
         <h5 className="fw-bold mt-3">Who can attend?</h5>
         <ul className="text-start mx-auto" style={{ maxWidth: "800px" }}>
-          <li>
-            Born-again experience, minimum D.T. Camp attendance, and
-            recommendation by senior adviser/district staff.
-          </li>
-          <li>
-            Graduates involved in student ministry with recommendation by EGF
-            Secretary and APEGF staff.
-          </li>
-          <li>
-            Only authenticated registrations will be added to the SPICON-2026 WR
-            Delegates WhatsApp group.
-          </li>
+          <li>Students with Born-again experience, minimum D.T. Camp attendance, and recommendation by senior adviser/district staff.</li>
+          <li>Graduates involving in student ministry with recommendation by EGF Secretary/APEGF staff.</li>
+          <li>Only authenticated registrations will be added to the SPICON-2026 WR Delegates WhatsApp group.</li>
         </ul>
 
-        <p className="fw-bold mt-2">
-          This is a sign that your registration is confirmed.
-        </p>
+        <p className="fw-bold mt-2">This is a sign that your registration is confirmed.</p>
 
         <p className="mt-3">
-          <strong>Last date for registration:</strong>
-          <br />
-          Dec 31, 2026 – 6 PM
+          <strong>Last date for registration:</strong><br />
+          Dec 20, 2025 – 12 PM
         </p>
 
-        <p className="text-danger fw-bold">
-          NOTE: No spot registration will be available.
-        </p>
+        <p className="text-danger fw-bold">NOTE: Spot registrations will not be allowed under any circumstances.</p>
 
         <hr />
 
@@ -176,16 +162,13 @@ export default function SPICONRegistration() {
         <p className="fw-bold mt-3">For any queries, please contact:</p>
 
         <p>
-          <strong>Bro. R. Sudhakar (Tadipatri)</strong>
-          <br />
+          <strong>Bro. R. Sudhakar (Tadipatri)</strong><br />
           9866621304
         </p>
 
         <p className="mt-3">
-          Yours in Christ,
-          <br />
-          <strong>Bro. Sudhekar</strong>
-          <br />
+          Yours in Christ,<br />
+          <strong>Bro. Sudhakar</strong><br />
           Registrar
         </p>
 
@@ -194,6 +177,7 @@ export default function SPICONRegistration() {
 
       {/* FORM START */}
       <form className="row g-3" onSubmit={handleSubmit}>
+
         {/* EMAIL */}
         <div className="col-md-6">
           <label className="form-label">Email *</label>
@@ -322,9 +306,7 @@ export default function SPICONRegistration() {
 
         {/* ICEU / EGF */}
         <div className="col-md-6">
-          <label className="form-label">
-            Which ICEU / EGF do you belong to? *
-          </label>
+          <label className="form-label">Which ICEU / EGF do you belong to? *</label>
           <select
             name="iceuEgf"
             className="form-select"
@@ -334,6 +316,7 @@ export default function SPICONRegistration() {
           >
             <option value="">Choose</option>
             <option>Anantapur East Zone</option>
+            <option>Anantapur West Zone</option>
             <option>Anantapur JNTU Zone</option>
             <option>Badvel</option>
             <option>Bukkarayasamudram</option>
@@ -415,37 +398,38 @@ export default function SPICONRegistration() {
             <option>Volunteers</option>
           </select>
         </div>
-        {/* --- MOVE GENDER + AGE HERE --- */}
-
-        <div className="col-md-6">
-          <label className="form-label">Gender *</label>
-          <select
-            name="gender"
-            className="form-select"
-            value={form.gender}
-            onChange={handle}
-            required
-          >
-            <option>Male</option>
-            <option>Female</option>
-          </select>
-        </div>
-
-        <div className="col-md-6">
-          <label className="form-label">Your Age *</label>
-          <input
-            name="age"
-            className="form-control"
-            value={form.age}
-            onChange={handle}
-            required
-          />
-        </div>
 
         {/* FAMILY GROUP CONDITIONAL BLOCK */}
         {form.groupType === "Family" && (
           <>
-            
+            {/* GENDER */}
+            <div className="col-md-6">
+              <label className="form-label">Gender *</label>
+              <select
+                name="gender"
+                className="form-select"
+                value={form.gender}
+                onChange={handle}
+                required
+              >
+                <option>Male</option>
+                <option>Female</option>
+                <option>Both</option>
+              </select>
+            </div>
+
+            {/* AGE */}
+            <div className="col-md-6">
+              <label className="form-label">Your Age *</label>
+              <input
+                name="age"
+                className="form-control"
+                value={form.age}
+                onChange={handle}
+                required
+              />
+            </div>
+
             {/* SPOUSE */}
             <div className="col-md-6">
               <label className="form-label">Is your spouse attending?</label>
@@ -474,9 +458,7 @@ export default function SPICONRegistration() {
 
             {/* CHILDREN BELOW 10 */}
             <div className="col-md-6">
-              <label className="form-label">
-                Children less than 10 (Count)
-              </label>
+              <label className="form-label">Children less than 10 (Count)</label>
               <input
                 name="childBelow10Count"
                 className="form-control"
@@ -518,9 +500,7 @@ export default function SPICONRegistration() {
 
             {/* TOTAL FAMILY COUNT */}
             <div className="col-md-12">
-              <label className="form-label">
-                Total family members attending *
-              </label>
+              <label className="form-label">Total family members attending *</label>
               <input
                 name="totalFamilyMembers"
                 className="form-control"
@@ -532,9 +512,7 @@ export default function SPICONRegistration() {
 
             {/* OTHER DELEGATES */}
             <div className="col-md-12">
-              <label className="form-label">
-                Other delegates excluding family
-              </label>
+              <label className="form-label">Other delegates excluding family</label>
               <textarea
                 name="delegatesOther"
                 className="form-control"
@@ -560,31 +538,19 @@ export default function SPICONRegistration() {
         <div className="col-12 mt-4">
           <hr className="mb-3" />
           <h5 className="fw-bold mb-3">Account Details</h5>
-
-          <div
-            className="p-3"
-            style={{ background: "#f8f9fa", borderRadius: "5px" }}
-          >
-            <p className="mb-2">
-              <strong>Account Holder Name :</strong> Mr. Jagatap Jagan
-            </p>
-            <p className="mb-2">
-              <strong>Account No :</strong> 44676705721
-            </p>
-            <p className="mb-2">
-              <strong>IFSC Code :</strong> SBIN0012674
-            </p>
-            <p className="mb-2">
-              <strong>UPI ID :</strong> -{" "}
-            </p>
-            <p className="mb-2">
-              <strong>Phone pay/Google Pay Number :</strong> -{" "}
-            </p>
+          
+          <div className="p-3" style={{ background: "#f8f9fa", borderRadius: "5px" }}>
+            <p className="mb-2"><strong>Account Holder Name :</strong> Mr. Jagatap Jagan</p>
+            <p className="mb-2"><strong>Account No :</strong> 44676705721</p>
+            <p className="mb-2"><strong>IFSC Code :</strong> SBIN0012674</p>
+            <p className="mb-2"><strong>UPI ID :</strong> - </p>
+            <p className="mb-2"><strong>Phone pay/Google Pay Number :</strong> - </p>
+            
           </div>
 
           <hr className="mt-4" />
         </div>
-        {/* --- END OF NEW SECTION --- */}
+        {/* --- END OF NEW SECTION --- */}        66
 
         <div className="col-md-6">
           <label className="form-label">Mode of Payment *</label>
