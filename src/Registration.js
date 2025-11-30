@@ -67,7 +67,7 @@ export default function SPICONRegistration() {
 
     try {
       const res = await fetch(
-        "https://api.sjtechsol.com/api/cashier/registerCustomer",
+        "http://13.234.197.201:5000/api/cashier/registerCustomer",
         {
           method: "POST",
           body: fd,
@@ -318,6 +318,7 @@ export default function SPICONRegistration() {
             <option>Anantapur East Zone</option>
             <option>Anantapur West Zone</option>
             <option>Anantapur JNTU Zone</option>
+            <option>Atp West Zone</option>
             <option>Badvel</option>
             <option>Bukkarayasamudram</option>
             <option>Dharmavaram</option>
@@ -333,6 +334,7 @@ export default function SPICONRegistration() {
             <option>Lepakshi</option>
             <option>Madakasira</option>
             <option>Mydukur</option>
+            <option>Pamidi</option>
             <option>Penukonda</option>
             <option>Proddatur</option>
             <option>Pulivendula</option>
@@ -341,6 +343,7 @@ export default function SPICONRegistration() {
             <option>Rolla</option>
             <option>Tadpatri</option>
             <option>Uravakonda</option>
+            <option>Vempalli</option>
             <option>Yerraguntla</option>
             <option>Yogi Vemana University Campus</option>
             <option>Sri Krishnadevaraya University (SKU)</option>
