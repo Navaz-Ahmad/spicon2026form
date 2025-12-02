@@ -1,10 +1,13 @@
-// SPICON 2026 — Dynamic Registration Form (FULL VERSION)
-// Bootstrap 5 + React + Fully Dynamic Logic
-
 import React, { useState } from "react";
 import logo from "./Assests/logo.PNG";
+import { useNavigate } from "react-router-dom";
+import EastRayaUPI from "./Assests/eastrayalaseemaupi.png";
+import { useLocation } from "react-router-dom";
 
-export default function SPICONRegistration() {
+export default function EastRegistration() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const region = location.state?.region || "East Rayalaseema";
   const initial = {
     email: "",
     title: "",
@@ -62,10 +65,17 @@ export default function SPICONRegistration() {
     const fd = new FormData();
     Object.entries(form).forEach(([k, v]) => fd.append(k, v));
     if (screenshot) fd.append("paymentScreenshot", screenshot);
+    
+
+    // IMPORTANT: Identifier for East Region
+    //fd.append("region", "East Rayalaseema");
+    fd.append("region", region);
 
     setLoading(true);
 
     try {
+      // NOTE: Using the same API endpoint for now.
+      // If East Rayalaseema has a different API, change the URL below.
       const res = await fetch(
         "https://api.sjtechsol.com/api/cashier/registerCustomer",
         {
@@ -77,7 +87,9 @@ export default function SPICONRegistration() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Registration failed");
 
-      setMessage("Registration successful! You will be added to WhatsApp group soon.");
+      setMessage(
+        "Registration successful! You will be added to WhatsApp group soon."
+      );
       setMessageType("success");
 
       setForm(initial);
@@ -93,6 +105,12 @@ export default function SPICONRegistration() {
 
   return (
     <div className="container py-4">
+      <button
+        className="btn btn-outline-secondary mb-3"
+        onClick={() => navigate("/")}
+      >
+        &larr; Back to Home
+      </button>
 
       {/* SUCCESS / ERROR MESSAGE */}
       {message && (
@@ -105,7 +123,7 @@ export default function SPICONRegistration() {
         </div>
       )}
 
-      {/* SPICON HEADER SECTION */}
+      {/* SPICON HEADER SECTION - EAST */}
       <div className="text-center mb-4">
         <img
           src={logo}
@@ -113,63 +131,84 @@ export default function SPICONRegistration() {
           style={{ width: "120px", marginBottom: "15px" }}
         />
 
-       
-
         <h2 className="fw-bold mb-2">
-          REGISTRATION FOR SPICON 2026 (West Rayalaseema)
+          EAST RAYALASEEMA SPICON-2026 REGISTRATION FORM
         </h2>
 
+        {/* Venue placeholders kept as user did not provide specific venue info yet */}
         <p className="mb-1">
-          <strong>Date:</strong> Jan 11–14, 2026
+          <strong>Dates:</strong> 10<sup>th</sup> 5pm to 13<sup>th</sup> 1:00pm
+          January 2026
         </p>
         <p className="mb-1">
-          <strong>Venue:</strong> Seventh-day Adventist High School,
+          <strong>Venue:</strong> Wisdom CBSE High school,
         </p>
         <p className="mb-3">
-          Duggannagaripalli, Vemula Mandal (Near Vempalli),<br />
-          Kadapa District (Y.S.R. Dist.)
+          koduru,
+          <br />
+          Annamayya District
         </p>
 
         <hr />
 
         <h5 className="fw-bold mt-3">Who can attend?</h5>
         <ul className="text-start mx-auto" style={{ maxWidth: "800px" }}>
-          <li>Students with Born-again experience, minimum D.T. Camp attendance, and recommendation by senior adviser/district staff.</li>
-          <li>Graduates involving in student ministry with recommendation by EGF Secretary/APEGF staff.</li>
-          <li>Only authenticated registrations will be added to the SPICON-2026 WR Delegates WhatsApp group.</li>
+          <li>
+            Students with Born-again experience, D.T. Camp attended and with
+            recommendation.
+          </li>
+          <li>
+            Graduates involving in student ministry and with recommendation.
+          </li>
+          <li>
+            Only authenticated registrations will be added to the SPICON-2026
+            East Rayalseema Delegates WhatsApp group.
+          </li>
         </ul>
 
-        <p className="fw-bold mt-2">This is a sign that your registration is confirmed.</p>
-
-        <p className="mt-3">
-          <strong>Last date for registration:</strong><br />
-          Dec 20, 2025 – 12 PM
+        <p className="fw-bold mt-2">
+          This is a sign that your registration is confirmed.
         </p>
 
-        <p className="text-danger fw-bold">NOTE: Spot registrations will not be allowed under any circumstances.</p>
+        <p className="mt-3">
+          <strong>Last date for registration:</strong>
+          <br />
+          Dec 22, 2025 – 11:59 PM
+        </p>
+
+        <p className="text-danger fw-bold">
+          NOTE: Spot registrations will not be allowed under any circumstances.
+        </p>
 
         <hr />
 
         <h5 className="fw-bold">Registration Details</h5>
         <ul className="text-start mx-auto" style={{ maxWidth: "800px" }}>
-          <li>Students & Unemployed – ₹500</li>
-          <li>Employed – ₹1300</li>
-          <li>Families – ₹2500</li>
+          <li>Students – ₹500</li>
+          <li>Unemployed Graduate – ₹500</li>
+          <li>Employed Graduate – ₹1300</li>
+          <li>Graduate Family(Single Employed) – ₹2000</li>
+          <li>Graduate Family(Doubled Employed) – ₹2500</li>
           <li>Children above 15 years – ₹500</li>
-          <li>Volunteers – ₹250</li>
+          <li>Volunteers – ₹200</li>
         </ul>
+        <p>
+          <span className="fw-bold">NOTE:</span>
+        </p>
+        <div>1. Children above 15 years old must be registered separately</div>
+        <div>2. Pensioners and Business people are treated as employees.</div>
+        <div>
+          3.Students attending under volunteers’ kota should reach the venue by
+          8am on 10/01/26 and leave the campus after the completion of physical
+          works in venue.
+        </div>
 
         <p className="fw-bold mt-3">For any queries, please contact:</p>
 
         <p>
-          <strong>Bro. R. Sudhakar (Tadipatri)</strong><br />
-          9866621304
-        </p>
-
-        <p className="mt-3">
-          Yours in Christ,<br />
-          <strong>Bro. Sudhakar</strong><br />
-          Registrar
+          <strong>M.MAHESH, Madanapalle</strong>
+          <br />
+          9491383584
         </p>
 
         <hr className="mb-4" />
@@ -177,7 +216,6 @@ export default function SPICONRegistration() {
 
       {/* FORM START */}
       <form className="row g-3" onSubmit={handleSubmit}>
-
         {/* EMAIL */}
         <div className="col-md-6">
           <label className="form-label">Email *</label>
@@ -202,7 +240,7 @@ export default function SPICONRegistration() {
             <option value="">Choose</option>
             <option>Mr</option>
             <option>Mrs</option>
-            <option>Ms</option>
+            <option>Miss</option>
             <option>Pastor</option>
             <option>Dr</option>
           </select>
@@ -231,10 +269,36 @@ export default function SPICONRegistration() {
             required
           />
         </div>
+        {/* GENDER */}
+        <div className="col-md-6">
+          <label className="form-label">Gender *</label>
+          <select
+            name="gender"
+            className="form-select"
+            value={form.gender}
+            onChange={handle}
+            required
+          >
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+        </div>
+
+        {/* AGE */}
+        <div className="col-md-6">
+          <label className="form-label">Your Age *</label>
+          <input
+            name="age"
+            className="form-control"
+            value={form.age}
+            onChange={handle}
+            required
+          />
+        </div>
 
         {/* DTC ATTENDED */}
         <div className="col-md-6">
-          <label className="form-label">Have you attended DTC? *</label>
+          <label className="form-label">Have you attended DT Camp? *</label>
           <select
             name="dtcAttended"
             className="form-select"
@@ -251,7 +315,9 @@ export default function SPICONRegistration() {
         {form.dtcAttended === "Yes" && (
           <>
             <div className="col-md-6">
-              <label className="form-label">When did you attend DTC? *</label>
+              <label className="form-label">
+                When did you attend your first DT Camp? *
+              </label>
               <input
                 name="dtcWhen"
                 className="form-control"
@@ -262,7 +328,9 @@ export default function SPICONRegistration() {
             </div>
 
             <div className="col-md-6">
-              <label className="form-label">Where did you attend DTC? *</label>
+              <label className="form-label">
+                Where did you attend first DT Camp? *
+              </label>
               <input
                 name="dtcWhere"
                 className="form-control"
@@ -286,7 +354,7 @@ export default function SPICONRegistration() {
           />
         </div>
 
-        {/* DISTRICT */}
+        {/* DISTRICT - Updated with requested districts */}
         <div className="col-md-6">
           <label className="form-label">District *</label>
           <select
@@ -297,16 +365,18 @@ export default function SPICONRegistration() {
             required
           >
             <option value="">Select</option>
-            <option>Anantapur</option>
-            <option>Sri Sathya Sai</option>
-            <option>YSR Kadapa</option>
+            <option>Annamayya</option>
+            <option>Chittoor</option>
+            <option>Tirupati</option>
             <option>Other</option>
           </select>
         </div>
 
-        {/* ICEU / EGF */}
+        {/* ICEU / EGF - Updated and duplicates removed */}
         <div className="col-md-6">
-          <label className="form-label">Which ICEU / EGF do you belong to? *</label>
+          <label className="form-label">
+            Which ICEU / EGF do you belong to? *
+          </label>
           <select
             name="iceuEgf"
             className="form-select"
@@ -315,39 +385,28 @@ export default function SPICONRegistration() {
             required
           >
             <option value="">Choose</option>
-            <option>Anantapur East Zone</option>
-            <option>Anantapur West Zone</option>
-            <option>Anantapur JNTU Zone</option>
-            <option>Atp West Zone</option>
-            <option>Badvel</option>
-            <option>Bukkarayasamudram</option>
-            <option>Dharmavaram</option>
-            <option>Gooty</option>
-            <option>Guntakal</option>
-            <option>Hindupur</option>
-            <option>IIIT Idupulapaya</option>
-            <option>Jammalamadugu</option>
-            <option>Kadapa</option>
-            <option>Kadiri</option>
-            <option>Kalyandurg</option>
-            <option>Kamalapuram</option>
-            <option>Lepakshi</option>
-            <option>Madakasira</option>
-            <option>Mydukur</option>
-            <option>Pamidi</option>
-            <option>Penukonda</option>
-            <option>Proddatur</option>
-            <option>Pulivendula</option>
-            <option>Puttaparthi</option>
-            <option>Rayadurg</option>
-            <option>Rolla</option>
-            <option>Tadpatri</option>
-            <option>Uravakonda</option>
-            <option>Vempalli</option>
-            <option>Yerraguntla</option>
-            <option>Yogi Vemana University Campus</option>
-            <option>Sri Krishnadevaraya University (SKU)</option>
-            <option>Central University (CU)</option>
+            <option>Koduru</option>
+            <option>Rajampeta</option>
+            <option>Madanapalle</option>
+            <option>Rayachoti</option>
+            <option>Kalikiri</option>
+            <option>Pileru</option>
+            <option>Chittoor</option>
+            <option>Punganoor</option>
+            <option>Palamaneru</option>
+            <option>Kuppam</option>
+            <option>V.Kota</option>
+            <option>Tirupati</option>
+            <option>Renigunta</option>
+            <option>Sattivedu</option>
+            <option>Srikalahasthi</option>
+            <option>Naidupeta</option>
+            <option>Sullurpeta</option>
+            <option>Gudur</option>
+            <option>Venkatagiri</option>
+            <option>Pakala</option>
+            <option>Puttoor</option>
+            <option>IIT-Tirupati</option>
             <option>Other</option>
           </select>
         </div>
@@ -363,16 +422,16 @@ export default function SPICONRegistration() {
             required
           >
             <option value="">Choose</option>
-            <option>EGF President</option>
             <option>EGF Secretary</option>
             <option>Senior Advisor</option>
             <option>Staff Worker</option>
             <option>District Coordinator</option>
+            <option>Regional Coordinator</option>
           </select>
         </div>
 
         <div className="col-md-6">
-          <label className="form-label">Recommender Contact *</label>
+          <label className="form-label">Recommended Person’s Contact *</label>
           <input
             name="recommenderContact"
             className="form-control"
@@ -405,37 +464,11 @@ export default function SPICONRegistration() {
         {/* FAMILY GROUP CONDITIONAL BLOCK */}
         {form.groupType === "Family" && (
           <>
-            {/* GENDER */}
-            <div className="col-md-6">
-              <label className="form-label">Gender *</label>
-              <select
-                name="gender"
-                className="form-select"
-                value={form.gender}
-                onChange={handle}
-                required
-              >
-                <option>Male</option>
-                <option>Female</option>
-                <option>Both</option>
-              </select>
-            </div>
-
-            {/* AGE */}
-            <div className="col-md-6">
-              <label className="form-label">Your Age *</label>
-              <input
-                name="age"
-                className="form-control"
-                value={form.age}
-                onChange={handle}
-                required
-              />
-            </div>
-
             {/* SPOUSE */}
             <div className="col-md-6">
-              <label className="form-label">Is your spouse attending?</label>
+              <label className="form-label">
+                Is your spouse attending SPICON-2026?
+              </label>
               <select
                 name="spouseAttending"
                 className="form-select"
@@ -461,7 +494,10 @@ export default function SPICONRegistration() {
 
             {/* CHILDREN BELOW 10 */}
             <div className="col-md-6">
-              <label className="form-label">Children less than 10 (Count)</label>
+              <label className="form-label">
+                No. of children less than 10 years old attending conference
+                SPICON -2026
+              </label>
               <input
                 name="childBelow10Count"
                 className="form-control"
@@ -471,7 +507,10 @@ export default function SPICONRegistration() {
             </div>
 
             <div className="col-md-6">
-              <label className="form-label">Names of children below 10</label>
+              <label className="form-label">
+                Names of children less than 10 years old attending conference
+                SPICON -2026
+              </label>
               <input
                 name="childBelow10Names"
                 className="form-control"
@@ -482,7 +521,10 @@ export default function SPICONRegistration() {
 
             {/* CHILDREN 10–14 */}
             <div className="col-md-6">
-              <label className="form-label">Children 10–14 (Count)</label>
+              <label className="form-label">
+                No. of Children 10–14 years old attending conference SPICON
+                -2026
+              </label>
               <input
                 name="child10to14Count"
                 className="form-control"
@@ -492,7 +534,10 @@ export default function SPICONRegistration() {
             </div>
 
             <div className="col-md-6">
-              <label className="form-label">Names of children 10–14</label>
+              <label className="form-label">
+                Names of children 10–14 years old attending conference SPICON
+                -2026
+              </label>
               <input
                 name="child10to14Names"
                 className="form-control"
@@ -503,7 +548,9 @@ export default function SPICONRegistration() {
 
             {/* TOTAL FAMILY COUNT */}
             <div className="col-md-12">
-              <label className="form-label">Total family members attending *</label>
+              <label className="form-label">
+                Total family members attending (Including children’s) *
+              </label>
               <input
                 name="totalFamilyMembers"
                 className="form-control"
@@ -515,7 +562,9 @@ export default function SPICONRegistration() {
 
             {/* OTHER DELEGATES */}
             <div className="col-md-12">
-              <label className="form-label">Other delegates excluding family</label>
+              <label className="form-label">
+                Names of others (Servant Girls/Helpers)
+              </label>
               <textarea
                 name="delegatesOther"
                 className="form-control"
@@ -525,7 +574,65 @@ export default function SPICONRegistration() {
             </div>
           </>
         )}
+        {/* MARITAL STATUS */}
+        <div className="col-md-6">
+          <label className="form-label">Marital Status *</label>
+          <select
+            name="maritalStatus"
+            className="form-select"
+            value={form.maritalStatus}
+            onChange={handle}
+            required
+          >
+            <option value="">Select</option>
+            <option>Married - Attending with Family</option>
+            <option>Married - Single</option>
+            <option>Unmarried</option>
+          </select>
+        </div>
 
+        <div className="col-12 mt-4">
+          <hr className="mb-3" />
+          <h5 className="fw-bold mb-3">Account Details (EAST)</h5>
+
+          <div
+            className="p-3"
+            style={{ background: "#f8f9fa", borderRadius: "5px" }}
+          >
+            <p className="mb-2">
+              <strong>Account Holder Name :</strong> Janga Sumalatha
+            </p>
+            <p className="mb-2">
+              <strong>Account No :</strong> 62112258352
+            </p>
+            <p className="mb-2">
+              <strong>IFSC Code :</strong> SBIN0021040
+            </p>
+            <p className="mb-2">
+              <strong>Branch Name :</strong> SBI-NAIDUPET
+            </p>
+            <p className="mb-2">
+              <strong>Phone Pay Number :</strong> 9885108525
+            </p>
+
+            {/* UPI Scanner Image */}
+            <div className="text-center mt-3">
+              <img
+                src={EastRayaUPI}
+                alt="UPI Scanner"
+                style={{ width: "200px", borderRadius: "10px" }}
+              />
+              <p className="mt-2">Scan this UPI QR to make the payment</p>
+            </div>
+          </div>
+
+          <hr className="mt-4" />
+        </div>
+
+        <p className="text-danger fw-bold mt-3">
+          NOTE: Minimum 50% of the total amount must be paid for the
+          registration to be accepted.
+        </p>
         {/* PAYMENT DETAILS */}
         <div className="col-md-6">
           <label className="form-label">Amount Paid *</label>
@@ -537,23 +644,6 @@ export default function SPICONRegistration() {
             required
           />
         </div>
-        {/* --- NEW ACCOUNT DETAILS SECTION ADDED HERE --- */}
-        <div className="col-12 mt-4">
-          <hr className="mb-3" />
-          <h5 className="fw-bold mb-3">Account Details</h5>
-          
-          <div className="p-3" style={{ background: "#f8f9fa", borderRadius: "5px" }}>
-            <p className="mb-2"><strong>Account Holder Name :</strong> Mr. Jagatap Jagan</p>
-            <p className="mb-2"><strong>Account No :</strong> 44676705721</p>
-            <p className="mb-2"><strong>IFSC Code :</strong> SBIN0012674</p>
-            <p className="mb-2"><strong>UPI ID :</strong> - </p>
-            <p className="mb-2"><strong>Phone pay/Google Pay Number :</strong> - </p>
-            
-          </div>
-
-          <hr className="mt-4" />
-        </div>
-        {/* --- END OF NEW SECTION --- */}        66
 
         <div className="col-md-6">
           <label className="form-label">Mode of Payment *</label>
@@ -606,20 +696,9 @@ export default function SPICONRegistration() {
           />
         </div>
 
-        {/* ARRIVAL DAY */}
-        <div className="col-md-6">
-          <label>When will you reach venue?</label>
-          <input
-            name="arrivalDay"
-            className="form-control"
-            value={form.arrivalDay}
-            onChange={handle}
-          />
-        </div>
-
         {/* ARRIVAL TIME */}
         <div className="col-md-6">
-          <label>Arrival Time *</label>
+          <label>Your Arrival time on 10/01/26 *</label>
           <select
             name="arrivalTime"
             className="form-select"
@@ -636,7 +715,7 @@ export default function SPICONRegistration() {
         {/* SUBMIT BUTTON */}
         <div className="col-12 text-center">
           <button className="btn btn-primary px-5" disabled={loading}>
-            {loading ? "Submitting..." : "Submit Registration"}
+            {loading ? "Submitting..." : "Submit Registration "}
           </button>
         </div>
       </form>
