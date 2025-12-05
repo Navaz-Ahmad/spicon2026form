@@ -24,7 +24,8 @@ export default function RegistrationList() {
 
   const fetchList = async () => {
     try {
-      const res = await fetch("https://api.sjtechsol.com/api/cashier/registrations");
+      // Use HTTP on backend port 5000 (adjust if your backend runs elsewhere)
+      const res = await fetch("http://10.47.12.204:5000/api/cashier/registrations");
       const result = await res.json();
       if (result.success) setRecords(result.data);
     } catch {
@@ -32,19 +33,42 @@ export default function RegistrationList() {
     }
   };
 
-  const updateStatus = async (id, status) => {
+  const updateStatus = async (id, action) => {
     try {
-      const res = await fetch(`https://api.sjtechsol.com/api/cashier/registrations/status/${id}`, {
-        method: "PUT",
+      let reason = "";
+      if (action === "rejected") {
+        reason = window.prompt("Please enter a rejection reason:", "");
+        if (reason === null || reason.trim() === "") {
+          toast.info("Rejection cancelled (reason required).");
+          return;
+        }
+      }
+
+      // Use the new endpoint structure: /approve or /reject
+      const endpoint = action === "approved" 
+        ? `http://10.47.12.204:5000/api/cashier/registrations/${id}/approve`
+        : `http://10.47.12.204:5000/api/cashier/registrations/${id}/reject`;
+      
+      const registrarData = localStorage.getItem("registrarData");
+      const res = await fetch(endpoint, {
+        method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({ 
+          approvedBy: registrarData || "Registrar",
+          rejectedBy: registrarData || "Registrar",
+          ...(action === "rejected" && { reason })
+        }),
       });
 
-      if (res.ok) {
-        toast.success(`Updated to ${status.toUpperCase()}`);
+      const result = await res.json();
+      if (res.ok && result.success) {
+        toast.success(`Registration ${action === "approved" ? "approved" : "rejected"} successfully! Email sent.`);
         fetchList();
-      } else toast.error("Action failed");
-    } catch {
+      } else {
+        toast.error(result.error || "Action failed");
+      }
+    } catch (error) {
+      console.error("Error:", error);
       toast.error("Server Error");
     }
   };
@@ -100,7 +124,7 @@ export default function RegistrationList() {
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
             <option value="approved">Approved</option>
-            <option value="declined">Declined</option>
+            <option value="rejected">Rejected</option>
           </select>
         </div>
       </div>
@@ -135,11 +159,14 @@ export default function RegistrationList() {
                     <td>
                       <span
                         className={`fw-bold ${
-                          status === "approved" ? "text-success" : status === "declined" ? "text-danger" : "text-warning"
+                          status === "approved" ? "text-success" : status === "rejected" ? "text-danger" : "text-warning"
                         }`}
                       >
                         {status}
                       </span>
+                      {item.uniqueId && (
+                        <div className="small text-muted">ID: {item.uniqueId}</div>
+                      )}
                     </td>
 
                     <td>
@@ -151,7 +178,7 @@ export default function RegistrationList() {
                           </button>
                         )}
 
-                        {status === "declined" && (
+                        {status === "rejected" && (
                           <button className="btn btn-danger rounded-circle btn-sm" disabled>
                             ✕
                           </button>
@@ -162,8 +189,8 @@ export default function RegistrationList() {
                             <button className="btn btn-success btn-sm" onClick={() => updateStatus(item._id, "approved")}>
                               Approve
                             </button>
-                            <button className="btn btn-danger btn-sm" onClick={() => updateStatus(item._id, "declined")}>
-                              Decline
+                            <button className="btn btn-danger btn-sm" onClick={() => updateStatus(item._id, "rejected")}>
+                              Reject
                             </button>
                           </>
                         )}

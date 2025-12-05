@@ -12,7 +12,9 @@ export default function RegistrarLogin() {
     setError("");
 
     try {
-      const res = await fetch("https://api.sjtechsol.com/api/auth/login", {
+      // Use HTTP + correct port if the backend is running on 5000 without TLS.
+      // Switch to https/443 only if you've configured SSL there.
+      const res = await fetch("http://10.47.12.204:5000/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

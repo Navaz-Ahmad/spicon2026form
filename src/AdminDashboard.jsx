@@ -20,7 +20,7 @@ export default function AdminDashboard() {
 
   const fetchPayments = async () => {
     try {
-      const res = await fetch("https://api.sjtechsol.com/api/cashier/list");
+      const res = await fetch("https://10.47.12.204/api/cashier/list");
       const result = await res.json();
 
       if (result.success) {

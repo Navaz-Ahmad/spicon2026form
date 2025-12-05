@@ -14,7 +14,7 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const res = await fetch("https://api.sjtechsol.com/api/auth/login", {
+      const res = await fetch("https://10.47.12.204/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
