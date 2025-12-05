@@ -9,32 +9,22 @@ export default function RegistrationList() {
   const [filterStatus, setFilterStatus] = useState("all");
   const navigate = useNavigate();
 
-  // 🔹 Helper: get final registration status for a row
+  // 🔹 Get final status safely
   const getRegStatus = (item) => {
-    // If we later store registrationStatus directly, use that
     if (item.registrationStatus) return item.registrationStatus;
-
-    // Otherwise try to read it from last transaction
-    const lastTxStatus =
-      Array.isArray(item.transactions) && item.transactions.length > 0
-        ? item.transactions[item.transactions.length - 1].status
-        : undefined;
-
-    return lastTxStatus || "pending";
+    const lastTx = item.transactions?.[item.transactions.length - 1]?.status;
+    return lastTx || "pending";
   };
 
   useEffect(() => {
     const token = localStorage.getItem("registrarToken");
     if (!token) return navigate("/registrar-login");
     fetchList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchList = async () => {
     try {
-      const res = await fetch(
-        "https://api.sjtechsol.com/api/cashier/registrations"
-      );
+      const res = await fetch("https://api.sjtechsol.com/api/cashier/registrations");
       const result = await res.json();
       if (result.success) setRecords(result.data);
     } catch {
@@ -44,14 +34,11 @@ export default function RegistrationList() {
 
   const updateStatus = async (id, status) => {
     try {
-      const res = await fetch(
-        `https://api.sjtechsol.com/api/cashier/registrations/status/${id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ status }),
-        }
-      );
+      const res = await fetch(`https://api.sjtechsol.com/api/cashier/registrations/status/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status }),
+      });
 
       if (res.ok) {
         toast.success(`Updated to ${status.toUpperCase()}`);
@@ -62,61 +49,54 @@ export default function RegistrationList() {
     }
   };
 
-  // 🔍 Search + Filter
+  // Search + Filter
   const filteredRecords = records.filter((item) => {
-    const currentStatus = getRegStatus(item);
-
-    const searchMatch =
-      item.name?.toLowerCase().includes(search.toLowerCase()) ||
-      item.email?.toLowerCase().includes(search.toLowerCase()) ||
-      item.mobile?.includes(search) ||
-      item.region?.toLowerCase().includes(search.toLowerCase());
-
-    const statusMatch =
-      filterStatus === "all" ? true : currentStatus === filterStatus;
-
-    return searchMatch && statusMatch;
+    const s = search.toLowerCase();
+    const status = getRegStatus(item);
+    return (
+      (item.name?.toLowerCase().includes(s) ||
+        item.email?.toLowerCase().includes(s) ||
+        item.mobile?.includes(search) ||
+        item.region?.toLowerCase().includes(s)) &&
+      (filterStatus === "all" || filterStatus === status)
+    );
   });
 
   return (
-    <div className="container-fluid mt-4">
+    <div className="container-fluid mt-3">
       <ToastContainer position="top-right" autoClose={2000} />
 
       {/* Header */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h3 className="fw-bold">Registration Approval List</h3>
+      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <h4 className="fw-bold">Registration Approval List</h4>
 
         <button
-          className="btn btn-danger fw-bold"
+          className="btn btn-danger fw-bold btn-sm px-3"
           onClick={() => {
             localStorage.removeItem("registrarToken");
             localStorage.removeItem("registrarData");
             toast.success("Logged out!");
-            setTimeout(() => navigate("/"), 700);
+            setTimeout(() => navigate("/"), 600);
           }}
         >
-          🚪 Logout
+          Logout
         </button>
       </div>
 
       {/* Search + Filter */}
-      <div className="row mb-3">
-        <div className="col-md-4 mb-2">
+      <div className="row g-2 mb-3">
+        <div className="col-12 col-md-4">
           <input
             type="text"
             className="form-control"
-            placeholder="Search by Name, Email, Mobile, Region..."
+            placeholder="Search Name / Email / Mobile / Region"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
 
-        <div className="col-md-3 mb-2">
-          <select
-            className="form-select"
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-          >
+        <div className="col-12 col-md-3">
+          <select className="form-select" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
             <option value="approved">Approved</option>
@@ -127,106 +107,62 @@ export default function RegistrationList() {
 
       {/* Table */}
       <div className="table-responsive">
-        <table className="table table-bordered table-striped text-center align-middle">
+        <table className="table table-bordered table-striped align-middle text-center table-sm">
           <thead className="table-dark">
             <tr>
               <th>S.No</th>
               <th>Region</th>
               <th>Email</th>
               <th>Name</th>
-              <th>Gender</th>
-              <th>Age</th>
               <th>Mobile</th>
-              <th>Recommended Role</th>
-              <th>Recommender Contact</th>
               <th>Status</th>
-              <th style={{ width: "150px" }}>Action</th>
+              <th>Action</th>
             </tr>
           </thead>
 
           <tbody>
             {filteredRecords.length ? (
               filteredRecords.map((item, i) => {
-                const currentStatus = getRegStatus(item);
-
+                const status = getRegStatus(item);
                 return (
                   <tr key={item._id}>
                     <td>{i + 1}</td>
                     <td>{item.region}</td>
-                    <td>{item.email}</td>
+                    <td className="text-break">{item.email}</td>
                     <td>{item.name}</td>
-                    <td>{item.gender || "-"}</td>
-                    <td>{item.age}</td>
                     <td>{item.mobile}</td>
-                    <td>{item.recommendedByRole}</td>
-                    <td>{item.recommenderContact}</td>
 
-                    {/* Status text */}
                     <td>
                       <span
-                        className={
-                          currentStatus === "approved"
-                            ? "text-success fw-bold"
-                            : currentStatus === "declined"
-                            ? "text-danger fw-bold"
-                            : "text-warning fw-bold"
-                        }
+                        className={`fw-bold ${
+                          status === "approved" ? "text-success" : status === "declined" ? "text-danger" : "text-warning"
+                        }`}
                       >
-                        {currentStatus}
+                        {status}
                       </span>
                     </td>
 
-                    {/* Action column */}
                     <td>
-                      <div className="d-flex gap-2 justify-content-center">
-                        {/* APPROVED → only tick */}
-                        {currentStatus === "approved" && (
-                          <button
-                            className="btn btn-success rounded-circle"
-                            style={{
-                              width: "38px",
-                              height: "38px",
-                              fontSize: "20px",
-                            }}
-                            disabled
-                          >
+                      <div className="d-flex gap-1 justify-content-center flex-wrap">
+
+                        {status === "approved" && (
+                          <button className="btn btn-success rounded-circle btn-sm" disabled>
                             ✓
                           </button>
                         )}
 
-                        {/* DECLINED → only cross */}
-                        {currentStatus === "declined" && (
-                          <button
-                            className="btn btn-danger rounded-circle"
-                            style={{
-                              width: "38px",
-                              height: "38px",
-                              fontSize: "20px",
-                            }}
-                            disabled
-                          >
+                        {status === "declined" && (
+                          <button className="btn btn-danger rounded-circle btn-sm" disabled>
                             ✕
                           </button>
                         )}
 
-                        {/* PENDING → show Approve / Decline */}
-                        {currentStatus === "pending" && (
+                        {status === "pending" && (
                           <>
-                            <button
-                              className="btn btn-success btn-sm"
-                              onClick={() =>
-                                updateStatus(item._id, "approved")
-                              }
-                            >
+                            <button className="btn btn-success btn-sm" onClick={() => updateStatus(item._id, "approved")}>
                               Approve
                             </button>
-
-                            <button
-                              className="btn btn-danger btn-sm"
-                              onClick={() =>
-                                updateStatus(item._id, "declined")
-                              }
-                            >
+                            <button className="btn btn-danger btn-sm" onClick={() => updateStatus(item._id, "declined")}>
                               Decline
                             </button>
                           </>
@@ -238,7 +174,7 @@ export default function RegistrationList() {
               })
             ) : (
               <tr>
-                <td colSpan="12" className="fw-bold text-danger">
+                <td colSpan="10" className="text-danger fw-bold">
                   No Records Found
                 </td>
               </tr>
@@ -246,6 +182,16 @@ export default function RegistrationList() {
           </tbody>
         </table>
       </div>
+
+      {/* Mobile Styling */}
+      <style>{`
+        @media(max-width: 600px){
+          table th, table td { font-size: 12px; padding: 6px; }
+          h4{ font-size: 18px; }
+          .btn-sm { font-size: 11px; padding: 3px 7px; }
+          .rounded-circle{ width:28px;height:28px;font-size:14px!important; }
+        }
+      `}</style>
     </div>
   );
 }
