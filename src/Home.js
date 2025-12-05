@@ -85,34 +85,62 @@ export default function Home() {
       </div>
 
       {/* BEAUTIFUL STYLING */}
-      <style>{`
-        .login-box {
-          background: #f8faff;
-          border-radius: 15px;
-          padding: 25px;
-          border: 2px solid transparent;
-          cursor: pointer;
-          transition: 0.3s;
-          box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-        }
-        .login-box:hover {
-          transform: scale(1.07);
-          border-color: #0d6efd;
-          background: #eef6ff;
-          box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-        .icon {
-          font-size: 40px;
-          color: #0d6efd;
-        }
-        .registrar:hover {
-          border-color: #198754;
-          background: #e8fff3;
-        }
-        .registrar .icon {
-          color: #198754;
-        }
-      `}</style>
+     <style>{`
+  .login-box {
+    background: #f8faff;
+    border-radius: 15px;
+    padding: 30px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+  }
+  .login-box:hover {
+    transform: scale(1.05);
+    border-color: #0d6efd;
+    background: #eef6ff;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.15);
+  }
+  .icon {
+    font-size: 48px;
+    color: #0d6efd;
+  }
+  .registrar .icon {
+    color: #198754;
+  }
+  .registrar:hover {
+    border-color: #198754;
+    background: #e8fff3;
+  }
+
+  /* 📱 Mobile Friendly */
+  @media(max-width: 768px){
+    .login-box{
+      margin-bottom:15px;
+      padding:25px;
+    }
+    .icon{
+      font-size:42px;
+    }
+    .card{
+      padding:30px !important;
+    }
+    .row.g-4 .col-6{
+      width:100%;
+    }
+  }
+
+  @media(max-width: 450px){
+    h2 { font-size:22px; }
+    .login-box span { font-size:14px; }
+    .login-box h5 { font-size:18px; }
+  }
+`}</style>
+
 
     </div>
   );
