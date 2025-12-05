@@ -8,26 +8,34 @@ export default function Home() {
 
   const handleContinue = () => {
     if (!region) return alert("Please select a region");
-    navigate(region === "West Rayalaseema" ? "/west-registration" : "/east-registration");
+    navigate(
+      region === "West Rayalaseema"
+        ? "/west-registration"
+        : "/east-registration"
+    );
   };
 
   return (
-    <div className="container vh-100 d-flex align-items-center justify-content-center">
-
+    <div
+      className="container min-vh-100 d-flex align-items-center justify-content-center"
+      style={{ paddingTop: "30px", paddingBottom: "30px" }}
+    >
       <div className="row w-100" style={{ maxWidth: "1200px" }}>
-
         {/* LEFT SECTION - LOGIN PORTAL */}
         <div className="col-md-6 mb-4">
-          <div className="card p-5 shadow-lg text-center" style={{height:"100%"}}>
-            
-            <h2 className="fw-bold mb-2" style={{letterSpacing:"1px"}}>LOGIN PORTAL</h2>
+          <div
+            className="card p-5 shadow-lg text-center"
+            style={{ height: "100%" }}
+          >
+            <h2 className="fw-bold mb-2" style={{ letterSpacing: "1px" }}>
+              LOGIN PORTAL
+            </h2>
             <p className="text-secondary mb-4">Select login type</p>
 
             <div className="row g-4">
-
               {/* Admin Login Tile */}
               <div className="col-6">
-                <div 
+                <div
                   className="login-box"
                   onClick={() => navigate("/admin-login")}
                 >
@@ -39,7 +47,7 @@ export default function Home() {
 
               {/* Registrar Login Tile */}
               <div className="col-6">
-                <div 
+                <div
                   className="login-box registrar"
                   onClick={() => navigate("/registrar-login")}
                 >
@@ -48,7 +56,6 @@ export default function Home() {
                   <span>Approve Registrations</span>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
@@ -56,12 +63,18 @@ export default function Home() {
         {/* RIGHT SECTION - REGISTRATION */}
         <div className="col-md-6 mb-4">
           <div className="card p-5 shadow-lg text-center">
-
-            <img src={logo} alt="logo" className="mb-4 mx-auto" style={{ width:"150px" }}/>
+            <img
+              src={logo}
+              alt="logo"
+              className="mb-4 mx-auto"
+              style={{ width: "150px" }}
+            />
 
             <h2 className="fw-bold mb-3">REGISTRATION FOR SPICON 2026</h2>
 
-            <label className="fw-bold text-start w-100">Select Your Region</label>
+            <label className="fw-bold text-start w-100">
+              Select Your Region
+            </label>
             <select
               className="form-select form-select-lg mt-2"
               value={region}
@@ -81,11 +94,10 @@ export default function Home() {
             </button>
           </div>
         </div>
-
       </div>
 
       {/* BEAUTIFUL STYLING */}
-     <style>{`
+      <style>{`
   .login-box {
     background: #f8faff;
     border-radius: 15px;
@@ -139,9 +151,31 @@ export default function Home() {
     .login-box span { font-size:14px; }
     .login-box h5 { font-size:18px; }
   }
+    /* Mobile layout fix */
+  @media(max-width:768px){
+    .container{
+      padding-top:50px !important;
+      padding-bottom:40px !important;
+    }
+    .row{
+      flex-direction:column;
+      align-items:center;
+    }
+    .col-md-6{
+      width:100%;
+    }
+    .login-box{
+      margin-top:10px;
+    }
+  }
+
+  @media(max-width:450px){
+    h2{ font-size:22px; }
+    .card{
+      padding:20px !important;
+    }
+  }
 `}</style>
-
-
     </div>
   );
 }
