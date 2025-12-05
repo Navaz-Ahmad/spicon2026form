@@ -8,49 +8,112 @@ export default function Home() {
 
   const handleContinue = () => {
     if (!region) return alert("Please select a region");
-
-    navigate(
-      region === "West Rayalaseema"
-        ? "/west-registration"
-        : "/east-registration",
-      { state: { region } }
-    );
+    navigate(region === "West Rayalaseema" ? "/west-registration" : "/east-registration");
   };
 
   return (
-    <div className="container d-flex flex-column align-items-center justify-content-center vh-100">
-      <div className="card p-5 shadow-lg text-center" style={{ maxWidth: "500px", width: "100%" }}>
-        
-        <img
-          src={logo}
-          alt="SPICON Logo"
-          className="mb-4 mx-auto"
-          style={{ width: "150px" }}
-        />
+    <div className="container vh-100 d-flex align-items-center justify-content-center">
 
-        <h2 className="fw-bold mb-4">REGISTRATION FOR SPICON 2026</h2>
+      <div className="row w-100" style={{ maxWidth: "1200px" }}>
 
-        <div className="mb-4 text-start">
-          <label className="form-label fw-bold">Select Your Region</label>
-          <select
-            className="form-select form-select-lg"
-            value={region}
-            onChange={(e) => setRegion(e.target.value)}
-          >
-            <option value="">-- Choose Region --</option>
-            <option value="West Rayalaseema">West Rayalaseema</option>
-            <option value="East Rayalaseema">East Rayalaseema</option>
-          </select>
+        {/* LEFT SECTION - LOGIN PORTAL */}
+        <div className="col-md-6 mb-4">
+          <div className="card p-5 shadow-lg text-center" style={{height:"100%"}}>
+            
+            <h2 className="fw-bold mb-2" style={{letterSpacing:"1px"}}>LOGIN PORTAL</h2>
+            <p className="text-secondary mb-4">Select login type</p>
+
+            <div className="row g-4">
+
+              {/* Admin Login Tile */}
+              <div className="col-6">
+                <div 
+                  className="login-box"
+                  onClick={() => navigate("/admin-login")}
+                >
+                  <i className="bi bi-shield-lock-fill icon"></i>
+                  <h5 className="fw-bold mt-2">Admin Login</h5>
+                  <span>Manage Payments</span>
+                </div>
+              </div>
+
+              {/* Registrar Login Tile */}
+              <div className="col-6">
+                <div 
+                  className="login-box registrar"
+                  onClick={() => navigate("/registrar-login")}
+                >
+                  <i className="bi bi-people-fill icon"></i>
+                  <h5 className="fw-bold mt-2">Registrar Login</h5>
+                  <span>Approve Registrations</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
 
-        <button 
-          className="btn btn-primary btn-lg w-100"
-          onClick={handleContinue}
-          disabled={!region}
-        >
-          Continue
-        </button>
+        {/* RIGHT SECTION - REGISTRATION */}
+        <div className="col-md-6 mb-4">
+          <div className="card p-5 shadow-lg text-center">
+
+            <img src={logo} alt="logo" className="mb-4 mx-auto" style={{ width:"150px" }}/>
+
+            <h2 className="fw-bold mb-3">REGISTRATION FOR SPICON 2026</h2>
+
+            <label className="fw-bold text-start w-100">Select Your Region</label>
+            <select
+              className="form-select form-select-lg mt-2"
+              value={region}
+              onChange={(e) => setRegion(e.target.value)}
+            >
+              <option value="">-- Choose Region --</option>
+              <option value="West Rayalaseema">West Rayalaseema</option>
+              <option value="East Rayalaseema">East Rayalaseema</option>
+            </select>
+
+            <button
+              className="btn btn-primary btn-lg w-100 mt-4"
+              disabled={!region}
+              onClick={handleContinue}
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+
       </div>
+
+      {/* BEAUTIFUL STYLING */}
+      <style>{`
+        .login-box {
+          background: #f8faff;
+          border-radius: 15px;
+          padding: 25px;
+          border: 2px solid transparent;
+          cursor: pointer;
+          transition: 0.3s;
+          box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        .login-box:hover {
+          transform: scale(1.07);
+          border-color: #0d6efd;
+          background: #eef6ff;
+          box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .icon {
+          font-size: 40px;
+          color: #0d6efd;
+        }
+        .registrar:hover {
+          border-color: #198754;
+          background: #e8fff3;
+        }
+        .registrar .icon {
+          color: #198754;
+        }
+      `}</style>
+
     </div>
   );
 }

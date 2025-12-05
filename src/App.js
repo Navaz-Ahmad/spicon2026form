@@ -1,30 +1,33 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import "./App.css";
 
-// Import Bootstrap JS (CSS is imported in index.js)
-import "bootstrap/dist/css/bootstrap.min.css"; 
-
-// Import Components
 import Home from "./Home";
-import WestRegistration from "./WestRegistration";
+import AdminLogin from "./AdminLogin";
 import EastRegistration from "./EastRegistration";
+import WestRegistration from "./WestRegistration";
+import AdminDashboard from "./AdminDashboard";
+import RegistrationList from "./RegistrationList";
+import RegistrarLogin from "./RegistrarLogin";    // <<< IMPORTANT ADD
 
 function App() {
   return (
     <Router>
-      <div className="App">
-        <Routes>
-          {/* Landing Page */}
-          <Route path="/" element={<Home />} />
-          
-          {/* West Rayalaseema Form */}
-          <Route path="/west-registration" element={<WestRegistration />} />
-          
-          {/* East Rayalaseema Form */}
-          <Route path="/east-registration" element={<EastRegistration />} />
-        </Routes>
-      </div>
+      <Routes>
+
+        {/* Public Routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/registrar-login" element={<RegistrarLogin />} /> {/* <<< NEW ROUTE */}
+        <Route path="/east-registration" element={<EastRegistration />} />
+        <Route path="/west-registration" element={<WestRegistration />} />
+
+        {/* Admin Pages */}
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+
+        {/* Registrar Pages */}
+        <Route path="/registrations" element={<RegistrationList />} /> {/* Approval page */}
+
+      </Routes>
     </Router>
   );
 }
