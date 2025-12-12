@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import logo from "./Assests/logo.PNG";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "./constants";
 import EastRayaUPI from "./Assests/eastrayalaseemaupi.png";
 
 export default function EastRegistration() {
@@ -72,7 +73,7 @@ export default function EastRegistration() {
 
     try {
       const res = await fetch(
-        "http://10.47.12.204:5000/api/cashier/registerCustomer",
+        API_ENDPOINTS.REGISTER_CUSTOMER,
         {
           method: "POST",
           body: fd,

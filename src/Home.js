@@ -56,6 +56,32 @@ export default function Home() {
                   <span>Approve Registrations</span>
                 </div>
               </div>
+
+              {/* Coordinator/LAC Convener - Create Payment Request */}
+              <div className="col-6">
+                <div
+                  className="login-box"
+                  style={{ background: "#fff3cd", borderColor: "#ffc107" }}
+                  onClick={() => navigate("/create-payment-request")}
+                >
+                  <i className="bi bi-cash-coin icon" style={{ color: "#ffc107" }}></i>
+                  <h5 className="fw-bold mt-2">Create Payment Request</h5>
+                  <span>Coordinator / LAC Convener</span>
+                </div>
+              </div>
+
+              {/* Coordinator/LAC Convener - View My Requests */}
+              <div className="col-6">
+                <div
+                  className="login-box"
+                  style={{ background: "#d1ecf1", borderColor: "#0dcaf0" }}
+                  onClick={() => navigate("/my-payment-requests")}
+                >
+                  <i className="bi bi-list-check icon" style={{ color: "#0dcaf0" }}></i>
+                  <h5 className="fw-bold mt-2">My Payment Requests</h5>
+                  <span>View Your Requests</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

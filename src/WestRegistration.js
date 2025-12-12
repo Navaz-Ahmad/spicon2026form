@@ -3,7 +3,8 @@
 // Bootstrap 5 + React + Fully Dynamic Logic
 import React, { useState } from "react";
 // Assuming useNavigate is available in the component's scope (requires import)
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "./constants"; 
 import logo from "./Assests/logo.PNG";
 import WestGooglePayQR from "./Assests/west_googlepay.png";
 import WestPhonePayQR from "./Assests/west_phonepay.png";
@@ -82,7 +83,7 @@ export default function SPICONRegistration() {
 
     try {
       const res = await fetch(
-        "http://10.47.12.204:5000/api/cashier/registerCustomer",
+        API_ENDPOINTS.REGISTER_CUSTOMER,
         {
           method: "POST",
           body: fd,

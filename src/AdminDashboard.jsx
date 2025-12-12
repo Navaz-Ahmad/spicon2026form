@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "./constants";
 
 export default function AdminDashboard() {
   const [records, setRecords] = useState([]);
@@ -20,7 +21,7 @@ export default function AdminDashboard() {
 
   const fetchPayments = async () => {
     try {
-      const res = await fetch("https://10.47.12.204/api/cashier/list");
+      const res = await fetch(API_ENDPOINTS.PAYMENTS_LIST);
       const result = await res.json();
 
       if (result.success) {
@@ -58,9 +59,23 @@ export default function AdminDashboard() {
           Admin Payment Dashboard
         </h3>
 
-        <button className="btn btn-danger fw-bold px-4" onClick={handleLogout}>
-          Logout
-        </button>
+        <div className="d-flex gap-2">
+          <button 
+            className="btn btn-primary fw-bold px-4" 
+            onClick={() => navigate("/cashier-payment-requests")}
+          >
+            Upload Payment
+          </button>
+          <button 
+            className="btn btn-info fw-bold px-4" 
+            onClick={() => navigate("/view-payment-requests")}
+          >
+            View All Requests
+          </button>
+          <button className="btn btn-danger fw-bold px-4" onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* Filters */}

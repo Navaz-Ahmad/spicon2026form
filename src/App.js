@@ -8,8 +8,13 @@ import WestRegistration from "./WestRegistration";
 import AdminDashboard from "./AdminDashboard";
 import RegistrationList from "./RegistrationList";
 import RegistrarLogin from "./RegistrarLogin"; 
-import RegistrationSuccess from "./RegistrationSuccess"; 
-   // <<< IMPORTANT ADD
+import RegistrationSuccess from "./RegistrationSuccess";
+import PaymentRequestForm from "./PaymentRequestForm";
+import PaymentRequestList from "./PaymentRequestList";
+import CashierPaymentRequests from "./CashierPaymentRequests";
+import ViewAllPaymentRequests from "./ViewAllPaymentRequests";
+import MyPaymentRequests from "./MyPaymentRequests";
+import ViewPaymentRequests from "./ViewPaymentRequests";
 
 function App() {
   return (
@@ -29,6 +34,20 @@ function App() {
 
         {/* Registrar Pages */}
         <Route path="/registrations" element={<RegistrationList />} /> {/* Approval page */}
+        <Route path="/payment-requests" element={<PaymentRequestList />} /> {/* Payment requests for registrar */}
+
+        {/* Coordinator/LAC Convener Pages */}
+        <Route path="/create-payment-request" element={<PaymentRequestForm />} />
+        <Route path="/my-payment-requests" element={<MyPaymentRequests />} />
+
+        {/* Cashier Pages */}
+        <Route path="/cashier-payment-requests" element={<CashierPaymentRequests />} />
+
+        {/* Chairperson/Admin Pages */}
+        <Route path="/view-payment-requests" element={<ViewAllPaymentRequests />} />
+
+        {/* View Payment Requests (for Chairperson, Registrar, Coordinator, LAC Convener) */}
+        <Route path="/view-payment-requests" element={<ViewPaymentRequests />} />
 
       </Routes>
     </Router>

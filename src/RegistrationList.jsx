@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { API_ENDPOINTS } from "./constants";
 
 export default function RegistrationList() {
   const [records, setRecords] = useState([]);
@@ -25,7 +26,7 @@ export default function RegistrationList() {
   const fetchList = async () => {
     try {
       // Use HTTP on backend port 5000 (adjust if your backend runs elsewhere)
-      const res = await fetch("http://10.47.12.204:5000/api/cashier/registrations");
+      const res = await fetch(API_ENDPOINTS.REGISTRATIONS);
       const result = await res.json();
       if (result.success) setRecords(result.data);
     } catch {
@@ -46,8 +47,8 @@ export default function RegistrationList() {
 
       // Use the new endpoint structure: /approve or /reject
       const endpoint = action === "approved" 
-        ? `http://10.47.12.204:5000/api/cashier/registrations/${id}/approve`
-        : `http://10.47.12.204:5000/api/cashier/registrations/${id}/reject`;
+        ? API_ENDPOINTS.REGISTRATION_APPROVE(id)
+        : API_ENDPOINTS.REGISTRATION_REJECT(id);
       
       const registrarData = localStorage.getItem("registrarData");
       const res = await fetch(endpoint, {
@@ -94,17 +95,31 @@ export default function RegistrationList() {
       <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
         <h4 className="fw-bold">Registration Approval List</h4>
 
-        <button
-          className="btn btn-danger fw-bold btn-sm px-3"
-          onClick={() => {
-            localStorage.removeItem("registrarToken");
-            localStorage.removeItem("registrarData");
-            toast.success("Logged out!");
-            setTimeout(() => navigate("/"), 600);
-          }}
-        >
-          Logout
-        </button>
+        <div className="d-flex gap-2">
+          <button
+            className="btn btn-primary fw-bold btn-sm px-3"
+            onClick={() => navigate("/payment-requests")}
+          >
+            Approve Requests
+          </button>
+          <button
+            className="btn btn-info fw-bold btn-sm px-3"
+            onClick={() => navigate("/view-payment-requests")}
+          >
+            View All Requests
+          </button>
+          <button
+            className="btn btn-danger fw-bold btn-sm px-3"
+            onClick={() => {
+              localStorage.removeItem("registrarToken");
+              localStorage.removeItem("registrarData");
+              toast.success("Logged out!");
+              setTimeout(() => navigate("/"), 600);
+            }}
+          >
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* Search + Filter */}

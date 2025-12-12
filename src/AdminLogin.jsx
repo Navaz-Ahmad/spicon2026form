@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_ENDPOINTS } from "./constants";
 
 export default function AdminLogin() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function AdminLogin() {
     setLoading(true);
 
     try {
-      const res = await fetch("https://10.47.12.204/api/auth/login", {
+      const res = await fetch(API_ENDPOINTS.LOGIN, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
